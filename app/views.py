@@ -8,3 +8,4 @@ from .serializer import MovieSerializer
 @api_view(['GET'])
 def helloAPI(request) :
     return Response('hello world!')
+
