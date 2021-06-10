@@ -1,6 +1,6 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from .views import helloAPI
 
 urlpatterns = [
-    path('', views.index),
+    path('hello/', helloAPI)
 ]

@@ -1,6 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Movie
+from .serializer import MovieSerializer
+
 # Create your views here.
 
-def index(request) :
-    return HttpResponse('test')
+@api_view(['GET'])
+def helloAPI(request) :
+    return Response('hello world!')
