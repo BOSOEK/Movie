@@ -10,3 +10,4 @@ class Movie(models.Model) :
 class User(models.Model) :
     nickname = models.CharField(max_length=50),
 
+//추가 모델
