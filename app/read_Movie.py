@@ -1,54 +1,80 @@
 import requests
+import json
+# API 지정
 
-class URLMaker() :
-    # base_url 설정 - 클래스 변수 : 클래스 사용 내내 고정된 값 - 모든 클래스에서 공유 가능
-    base_url = 'https://developers.themoviedb.org/3'
+apikey = "087a9e847ff25a6c094e1afef9b92bd1"
+# 정보를 알고 싶은 영화 리스트 만들기
 
-    # 생성자 - api_key를 인스턴스 변수로 초기화 하여 생성
-    def __init__(self, key):
-        self.key = key
+movie_list = range(581387, 581388)
+# API 지정
 
-    # 인스턴스 메서드, url 반환
-    def get_url(self, category, feature, **kwargs):  # param으로 가변 인자로 받아온다 - query string 방식 이요을 위해
-        # -class 속성인 base_url에 접근
-        # - category, feature는 인스턴스에 할당되어 있는 변수가 아닌
-        # 함수의 인자 argument로 들어온 값이기 때문에 self.변수명 형태가 아니라
-        # 인자값(아규먼트값)을 바로 사용한다.
-        url = f'{URLMaker.base_url}/{category}/{feature}'
+api = "https://api.themoviedb.org/3/movie/{movies}?api_key={key}"
 
-        # 인스턴스 생성시, 인스턴스 변수로 저장된 api_key 값을 받아온다
-        url += f'?api_key={self.key}'
 
-        # 가변인자로 받아온 값을 쿼리스트링 방식으로 url에 이어준다.
-        for key, value in kwargs.items() :
-            url += f'&{key}={value}'
+# string.format_map() 매핑용 클래스 만들기
+class Default(dict):
+    def __missing__(self, key):
+        return key
 
-        return url
 
-    # 인스턴스 메서드
-    # 영화 제목을 입력받아 영화 아이디를 반환
-    # - 요청으로 받을 응답에 영화정보 데이터가 있을 것이고, 그 id를 반환해 줄 것이다.
-    def movie_id(self, title):
-        # 인서턴스 메서드인 get_url() 호출 (self/move는 영화제목을 받아 영화정보를 반환)
-        # - title을 입력하면 해당 영화제목에 맞는 영화 정보 url을 반환
-        url = self.get_url('search', 'movie', region='KR', language='ko', query=title)
+# 각 영화의 정보 추출하기
+for name in movie_list:
+    try:
+        # API의 URL 구성하기
+        url = api.format_map(Default(movies=name, key=apikey))
+        # print(url)  # 데이터 확인
+        # API에 요청을 보내 데이터 추출하기
+        r = requests.get(url)  # json 형태의 데이터가 나온다.
+        # print(type(r))  # <class 'requests.models.Response'>
+        # 결과를 JSON 형식으로 변환하기
+        data = json.loads(r.text)
+        # print(type(data))  # <class 'dict'>
+        # print(data)  # 데이터 확인
+        print("+ 영화제목 =", data["title"])
+        print("| 장르 =", data["genres"][0]["name"])
+        print("| 장르 아이디 =", data["genres"][0]["id"])
+        print("| 개요 =", data["overview"])
+        print("| 유명도 =", data["popularity"])
+        print("| 성인 = ", data['adult'])
+        print("| backdrop_path = ", data['backdrop_path'])
+        print("| 제작사 =", data["production_companies"][0]["name"])
+        print("상영시간 = ", data['runtime'])
+        print('수익 = ', data['revenue'])
+        print('출시일 = ', data['release_date'])
+        print("예산 = ", data['budget'])
+        print("| 홈페이지 =", data["homepage"])
+        print("| 원래 언어 =", data["original_language"])
+        print("투표 평균 = ", data['vote_average'])
+        print("투표개수 = ", data['vote_count'])
+        print("태그 라인 = ", data['tagline'])
+        print("상영 상태 = ", data['status'])
 
-        # 만들어진 url을 통해 서버에 요청해, 응답을 받아온다.
-        response = requests.get(url)
+        api = "https://api.themoviedb.org/3/movie/{movies}/videos?api_key={key}"
+        url = api.format_map(Default(movies=name, key=apikey))
+        r = requests.get(url)
+        data = json.loads(r.text)
+        print('video : https://www.youtube.com/watch?v=' + data['results'][0]['key'])
 
-        # 받아온 데이터를 json -> dict으로 변환
-        movie_dict = response.json()
+        api = "https://api.themoviedb.org/3/movie/{movies}/images?api_key={key}"
+        url = api.format_map(Default(movies=name, key=apikey))
+        r = requests.get(url)
+        data = json.loads(r.text)
+        print('poster : https://image.tmdb.org/t/p/w200/' + data['posters'][0]['file_path'])
 
-        # 만약 영화 제목에 해당하는 값이 있다면
-        if movie_dict.get('results') :
-            # movie_dict에서 movie_id를 추출한다
-            result = movie_dict.get('result')[0].get('id')
-            # 영화 제목에 해당하는 id 반환
-            return result
-        # 해당하는 값이 없다면, -result가 비어있다면
-        else :
-            return None  # None 출력
+        api = "https://api.themoviedb.org/3/movie/{movies}/images?api_key={key}"
+        url = api.format_map(Default(movies=name, key=apikey))
+        r = requests.get(url)
+        data = json.loads(r.text)
+        print('backdrops : https://image.tmdb.org/t/p/w200/' + data['backdrops'][0]['file_path'])
 
-maker = URLMaker('[api_key]')
+        api = "https://api.themoviedb.org/3/movie/{movies}/credits?api_key={key}"
+        url = api.format_map(Default(movies=name, key=apikey))
+        r = requests.get(url)
+        data = json.loads(r.text)
+        for i in data['cast']:
+            print('배우 : ' + i['name'])
+        for i in data['crew']:
+            print('' + i['job'] + ' : ' + i['name'])
 
-print(maker.get_url('movie', 'popular', region='KR', language='ko'))
+    except:
+        print("영화번호 " + str(name) + " 에 데이터 없음")
