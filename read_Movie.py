@@ -32,18 +32,13 @@ for name in movie_list:
         # print(data)  # 데이터 확인
         print("+ 영화제목 =", data["title"])
         print("| 장르 =", data["genres"][0]["name"])
-        print("| 장르 아이디 =", data["genres"][0]["id"])
         print("| 개요 =", data["overview"])
         print("| 유명도 =", data["popularity"])
         print("| 성인 = ", data['adult'])
-        print("| backdrop_path = ", data['backdrop_path'])
         print("| 제작사 =", data["production_companies"][0]["name"])
         print("상영시간 = ", data['runtime'])
-        print('수익 = ', data['revenue'])
         print('출시일 = ', data['release_date'])
         print("예산 = ", data['budget'])
-        print("| 홈페이지 =", data["homepage"])
-        print("| 원래 언어 =", data["original_language"])
         print("투표 평균 = ", data['vote_average'])
         print("투표개수 = ", data['vote_count'])
         print("태그 라인 = ", data['tagline'])
@@ -73,8 +68,9 @@ for name in movie_list:
         data = json.loads(r.text)
         for i in data['cast']:
             print('배우 : ' + i['name'])
-        for i in data['crew']:
-            print('' + i['job'] + ' : ' + i['name'])
 
+        for i in data['crew']:
+            if i['job'] == 'Director':
+                print('' + i['job'] + ' : ' + i['name'])
     except:
         print("영화번호 " + str(name) + " 에 데이터 없음")
