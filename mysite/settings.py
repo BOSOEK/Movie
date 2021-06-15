@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
+    'django-bs4',
+    'django.forms',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
