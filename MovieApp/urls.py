@@ -1,6 +1,7 @@
 from django.urls import path
-from MovieApp import views
+from .views import helloAPI, showMovie
 
 urlpatterns = [
-    path('', views.index),
+    path('hello/', helloAPI),
+    path('<int:id>/', showMovie),
 ]
