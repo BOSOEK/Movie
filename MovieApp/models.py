@@ -22,7 +22,7 @@ class Movie(models.Model):
     director = models.CharField(max_length=30)  # 감독
 
     def __str__(self):
-        return self.title
+        return self.genres
 
 
 class User(models.Model) :
