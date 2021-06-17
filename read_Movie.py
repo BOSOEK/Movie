@@ -11,12 +11,7 @@ from MovieApp.models import Movie
 apikey = "087a9e847ff25a6c094e1afef9b92bd1"
 # 정보를 알고 싶은 영화 리스트 만들기
 
-movie_list = range(1091, 1092)
-# API 지정
-
-api = "https://api.themoviedb.org/3/movie/{movies}?api_key={key}"
-
-
+movie_list = range(101, 136000)
 # string.format_map() 매핑용 클래스 만들기
 class Default(dict):
     def __missing__(self, key):
@@ -25,8 +20,10 @@ class Default(dict):
 
 # 각 영화의 정보 추출하기
 for name in movie_list:
-    #try:
+    try:
         # API의 URL 구성하기
+        # API 지정
+        api = "https://api.themoviedb.org/3/movie/{movies}?api_key={key}"
         url = api.format_map(Default(movies=name, key=apikey))
         # print(url)  # 데이터 확인
         # API에 요청을 보내 데이터 추출하기
@@ -67,22 +64,23 @@ for name in movie_list:
         url = api.format_map(Default(movies=name, key=apikey))
         r = requests.get(url)
         data = json.loads(r.text)
-        MovieResults = data['results'][0]['key']
-        print('video : https://www.youtube.com/watch?v=' + MovieResults + str(type(MovieResults)))
+        MovieResults = 'https://www.youtube.com/watch?v=' + data['results'][0]['key']
+        print('video : ' + MovieResults + str(type(MovieResults)))
 
         api = "https://api.themoviedb.org/3/movie/{movies}/images?api_key={key}"
         url = api.format_map(Default(movies=name, key=apikey))
         r = requests.get(url)
         data = json.loads(r.text)
-        MoviePoster = data['posters'][0]['file_path']
-        print('poster : https://image.tmdb.org/t/p/w200/' + MoviePoster + str(type(MoviePoster)))
+        MoviePoster = 'https://image.tmdb.org/t/p/w200/' + data['posters'][0]['file_path']
+        print('poster : ' + MoviePoster + str(type(MoviePoster)))
 
         api = "https://api.themoviedb.org/3/movie/{movies}/images?api_key={key}"
         url = api.format_map(Default(movies=name, key=apikey))
         r = requests.get(url)
         data = json.loads(r.text)
-        MovieBackdrop = data['backdrops'][0]['file_path']
-        print('backdrops : https://image.tmdb.org/t/p/w200/' + MovieBackdrop + str(type(MovieBackdrop)))
+
+        MovieBackdrop = 'https://image.tmdb.org/t/p/w200/' +data['backdrops'][0]['file_path']
+        print('backdrops : ' + MovieBackdrop + str(type(MovieBackdrop)))
 
         api = "https://api.themoviedb.org/3/movie/{movies}/credits?api_key={key}"
         url = api.format_map(Default(movies=name, key=apikey))
@@ -104,5 +102,5 @@ for name in movie_list:
         movies = Movie(title=MovieTitle, genres=MovieGenres, overview=MovieOverview, popularity=MoviePopularity, adult=MovieAdult, production=MovieProduction,
                        runtime=MovieRuntime, release=MovieRelease, budget=MovieDudget, voteAver=MovieVoteAver, voteCount=MovieVoteCount, tagLine=MovieTagline, status=MovieStatus, video=MovieResults, poster=MoviePoster, backdrop=MovieBackdrop, cast=MovieCast, director=MovieCrew)
         movies.save()
-    #except:
-    #    print("영화번호 " + str(name) + " 에 데이터 없음")
+    except:
+        print("영화번호 " + str(name) + " 에 데이터 없음")

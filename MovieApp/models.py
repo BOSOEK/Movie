@@ -9,15 +9,15 @@ class Movie(models.Model):
     adult = models.BooleanField(default=False)             # 성인 요소
     production = models.CharField(max_length=60)  # 제작사
     runtime = models.IntegerField(default=0)             # 상영시간
-    release = models.CharField(max_length=20)            # 출시일
+    release = models.DateField(max_length=20)            # 출시일
     budget = models.IntegerField(default=0)             # 예산
     voteAver = models.FloatField(default=0)           # 투표 평균
     voteCount = models.IntegerField(default=0)          # 투표 개수
     tagLine = models.TextField()               # 태그라인
     status = models.CharField(max_length=20)     # 상영상태
-    video = models.TextField()                # 영화 예고편 영상 링크
-    poster = models.TextField()               # 영화 포스터 링크
-    backdrop = models.TextField()              # 배경 사진 링크
+    video = models.URLField()                # 영화 예고편 영상 링크
+    poster = models.URLField()               # 영화 포스터 링크
+    backdrop = models.URLField()              # 배경 사진 링크
     cast = models.TextField()                 # 배우들
     director = models.CharField(max_length=30)  # 감독
 
