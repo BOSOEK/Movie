@@ -5,7 +5,6 @@ class Movie(models.Model):
     title = models.CharField(max_length=100)   # 제목
     genres = models.CharField(max_length=50)   # 장르
     overview = models.TextField()              # 개요
-    popularity = models.FloatField(default=0)         # 유명도
     adult = models.BooleanField(default=False)             # 성인 요소
     production = models.CharField(max_length=60)  # 제작사
     runtime = models.IntegerField(default=0)             # 상영시간
@@ -13,7 +12,6 @@ class Movie(models.Model):
     budget = models.IntegerField(default=0)             # 예산
     voteAver = models.FloatField(default=0)           # 투표 평균
     voteCount = models.IntegerField(default=0)          # 투표 개수
-    tagLine = models.TextField()               # 태그라인
     status = models.CharField(max_length=20)     # 상영상태
     video = models.URLField()                # 영화 예고편 영상 링크
     poster = models.URLField()               # 영화 포스터 링크
@@ -22,7 +20,7 @@ class Movie(models.Model):
     director = models.CharField(max_length=30)  # 감독
 
     def __str__(self):
-        return self.genres
+        return self.title
 
 
 class User(models.Model) :
