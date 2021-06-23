@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Movie(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)   # 제목
     genres = models.CharField(max_length=50)   # 장르
     overview = models.TextField()              # 개요
