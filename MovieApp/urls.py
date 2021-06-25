@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import helloAPI, showMovie
+from .views import showMovie
 
 urlpatterns = [
-    path('hello/', helloAPI),
     path('Random/<int:id>/', showMovie),
 ]
+
+
