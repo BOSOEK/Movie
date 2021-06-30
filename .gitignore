@@ -8,3 +8,6 @@ db.sqlite3
 .DB_Store
 
 read_Movie.py
+
+get-pip.py
+README.md
