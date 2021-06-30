@@ -3,9 +3,9 @@ from django.db import models
 # Create your models here.
 class Movie(models.Model):
     id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)   # 제목
-    genres = models.CharField(max_length=50)   # 장르
-    overview = models.TextField()              # 개요
+    title = models.CharField(max_length=100)               # 제목
+    genres = models.CharField(max_length=50)               # 장르
+    overview = models.TextField()                          # 개요
     adult = models.BooleanField(default=False)             # 성인 요소
     production = models.CharField(max_length=60)  # 제작사
     runtime = models.IntegerField(default=0)             # 상영시간
@@ -25,8 +25,11 @@ class Movie(models.Model):
 
 
 class User(models.Model) :
-    nickname = models.CharField(max_length=50, primary_key=True),
-    pushedGood = models.CharField(max_length=100),
+    nickname = models.CharField(max_length=50, primary_key=True, default=False)
+    password = models.CharField(max_length=100, default=False)
+    pushedGood = models.CharField(max_length=100)
+    sex = models.CharField(max_length=10)
+
 
     def str(self):
         return self.nickname
@@ -35,10 +38,10 @@ class User(models.Model) :
 class Opinion(models.Model) :
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)  # 무비 테이블과 연동
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # 유저 테이블 연동
-    name = models.CharField(max_length=50, primary_key=True),   # 유저 네임
-    content = models.TextField(),    # 댓글 내용
-    push = models.IntegerField(default=0),    # 추천수
-    create_date = models.DateTimeField(auto_now_add=True),   # 댓글 날짜
+    name = models.CharField(max_length=50, primary_key=True)   # 유저 네임
+    content = models.TextField()    # 댓글 내용
+    push = models.IntegerField(default=0)    # 추천수
+    create_date = models.DateTimeField(auto_now_add=True)   # 댓글 날짜
 
     def str(self):
         return self.content

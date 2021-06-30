@@ -12,7 +12,7 @@ from MovieApp.models import Movie
 apikey = "087a9e847ff25a6c094e1afef9b92bd1"
 # 정보를 알고 싶은 영화 리스트 만들기
 
-movie_list = range(508000, 509000)
+movie_list = range(15374, 559000)
 # string.format_map() 매핑용 클래스 만들기
 class Default(dict):
     def __missing__(self, key):
