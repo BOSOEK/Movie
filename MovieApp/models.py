@@ -30,7 +30,6 @@ class User(models.Model) :
     pushedGood = models.CharField(max_length=100)
     sex = models.CharField(max_length=10)
 
-
     def str(self):
         return self.nickname
 
