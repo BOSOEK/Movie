@@ -1,1 +1,1 @@
-web: gunicorn moviebleapp.wsgi
+web: gunicorn moviebleapp.wsgi --log-file -

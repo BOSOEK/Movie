@@ -1,5 +1,8 @@
 __pycache__/
 *.py[cod]
+*.log
+*.pot
+*.pyc
 
 .Python
 venv/
